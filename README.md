@@ -5,6 +5,9 @@ The primary goal of this project was to predict Customer Lifetime Value (CLV) us
 
 ## 2. Methodology
 
+## Dataset
+We have used the 'Online Retail II UCI' dataset which can be accessed by : https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci?resource=download
+
 ### Data Preparation
 - Loaded transactional data and transformed it into an RFM (Recency, Frequency, Monetary) format.
 - Recency: Days since last purchase.
