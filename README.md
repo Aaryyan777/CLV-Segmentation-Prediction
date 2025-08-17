@@ -3,10 +3,21 @@
 ## 1. Project Goal
 The primary goal of this project was to predict Customer Lifetime Value (CLV) using historical transactional data. By understanding and predicting CLV, businesses can identify high-value customers, optimize marketing strategies, and improve customer retention.
 
-### How To Run
-- Download the entire project (along with the `xgboost_clv_model.joblib` file)
-- `cd filepath`
-- `python app_github.py`
+### How to Use
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Aaryyan777/CLV-Segmentation-Prediction.git
+    cd CLV-Segmentation-Prediction
+    ```
+2.  **Install the dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Run the project:**
+    ```bash
+    python app_github.py
+    ```
 
 ## 2. Methodology
 
