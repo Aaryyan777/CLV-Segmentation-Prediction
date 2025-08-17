@@ -3,6 +3,11 @@
 ## 1. Project Goal
 The primary goal of this project was to predict Customer Lifetime Value (CLV) using historical transactional data. By understanding and predicting CLV, businesses can identify high-value customers, optimize marketing strategies, and improve customer retention.
 
+### How To Run
+- download the entire project
+- `cd filepath`
+- `python app_github.py`
+
 ## 2. Methodology
 
 ## Dataset
