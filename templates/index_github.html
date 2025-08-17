@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Lifetime Value Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,.1);
+            border: none;
+            border-radius: 10px;
+            transition: transform .2s;
+        }
+        .card:hover {
+            transform: scale(1.02);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .container-fluid {
+            padding: 30px;
+        }
+        .section-title {
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .prediction-form, .segment-table {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        .segment-table th {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-chart-line"></i>
+            CLV Analytics Dashboard
+        </a>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-6">
+                <!-- Prediction Form -->
+                <div class="prediction-form mb-4">
+                    <h2 class="section-title">Predict CLV for a New Customer</h2>
+                    <form action="/predict" method="post">
+                        <div class="form-group">
+                            <label for="recency"><strong>Recency (Days since last purchase):</strong></label>
+                            <input type="number" class="form-control" id="recency" name="recency" placeholder="e.g., 30" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="frequency"><strong>Frequency (Total number of purchases):</strong></label>
+                            <input type="number" class="form-control" id="frequency" name="frequency" placeholder="e.g., 5" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-search-dollar"></i> Predict
+                        </button>
+                    </form>
+                    {% if prediction_text %}
+                        <div class="alert alert-success mt-3" role="alert">
+                            <strong>{{ prediction_text }}</strong>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Customer Segments Table -->
+                <div class="segment-table">
+                    <h2 class="section-title">Customer Segments Overview</h2>
+                    <div class="table-responsive">
+                        {{ segment_analysis | safe }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-6">
+                <!-- Visualization -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie"></i> Customer Segments Visualization
+                    </div>
+                    <div class="card-body">
+                        <img src="/customer_segments.png" alt="Customer Segments" class="img-fluid rounded">
+                    </div>
+                </div>
+
+                <!-- Actionable Insights -->
+                <h2 class="section-title">Actionable Insights</h2>
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-arrow-down text-danger"></i> Low-Value Customers</h5>
+                                <p class="card-text">Customers at risk of churning. Focus on re-engagement.</p>
+                                <ul>
+                                    <li>Implement targeted email campaigns with special offers.</li>
+                                    <li>Conduct surveys to understand and address their pain points.</li>
+                                    <li>Use past purchase history for personalized recommendations.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-balance-scale text-warning"></i> Medium-Value Customers</h5>
+                                <p class="card-text">Loyal customers with growth potential. Focus on up-selling.</p>
+                                <ul>
+                                    <li>Introduce loyalty programs to reward their engagement.</li>
+                                    <li>Recommend complementary or higher-value products.</li>
+                                    <li>Offer exclusive content or early access to new items.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-crown text-success"></i> High-Value Customers</h5>
+                                <p class="card-text">Your most valuable customers. Focus on retention and advocacy.</p>
+                                <ul>
+                                    <li>Provide VIP treatment with exclusive benefits and dedicated support.</li>
+                                    <li>Involve them in product feedback and co-creation sessions.</li>
+                                    <li>Encourage referrals through an attractive incentive program.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
